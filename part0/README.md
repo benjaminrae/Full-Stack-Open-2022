@@ -1,7 +1,7 @@
 # Full-Stack-Open-2022
 My course submissions for Full Stack Open 2022
 
-## Part 0
+## Part 0 - [View Course](https://fullstackopen.com/en/part0)
 
 ### 0.4 New Note
 ![0.4 New Note diagram!](https://github.com/benjaminrae/Full-Stack-Open-2022/blob/main/part0/0.4%20New%20Note.png)
