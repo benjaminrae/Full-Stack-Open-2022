@@ -10,6 +10,10 @@ const Anecdote = (props) => {
     return <p>{props.selectedAnecdote}</p>;
 };
 
+const VoteCount = (props) => {
+    return <p>has {props.voteCount} votes</p>;
+};
+
 const App = () => {
     const anecdotes = [
         "If it hurts, do it more often",
@@ -23,18 +27,31 @@ const App = () => {
 
     const [selected, setSelected] = useState(0);
 
+    const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
+
+    const votesCopy = [...votes];
+
     const randomNumber = () => Math.floor(Math.random() * anecdotes.length);
 
-    const handleClick = () => {
+    const handleAnecdoteClick = () => {
         setSelected(randomNumber());
+    };
+
+    const handleVoteClick = () => {
+        votesCopy[selected] += 1;
+        setVotes(votesCopy);
+        console.log(votesCopy);
+        console.log(votes);
     };
 
     return (
         <>
             <Title />
             <Anecdote selectedAnecdote={anecdotes[selected]} />
+            <VoteCount voteCount={votes[selected]} />
+            <Button onClick={() => handleVoteClick()} text="Vote" />
             <Button
-                onClick={() => handleClick()}
+                onClick={() => handleAnecdoteClick()}
                 text="Generate Random Anecdote"
             />
         </>
