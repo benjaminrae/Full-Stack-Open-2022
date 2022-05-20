@@ -13,11 +13,30 @@ const Button = (props) => {
 };
 
 const Statistic = (props) => {
-    console.log(props);
+    console.log(props, "here");
     return (
         <p>
             {props.text} : {props.counter}
         </p>
+    );
+};
+
+const StatisticsGroup = (props) => {
+    // console.log(props, "stats group");
+    const { good, neutral, bad, total, average, percent } = props.statistics;
+    // console.log(props.good, "this is good");
+    return (
+        <div>
+            <Statistic counter={good} text="Good" />
+            <Statistic counter={neutral} text="Neutral" />
+            <Statistic counter={bad} text="Bad" />
+            <Statistic counter={total} text="Total" />
+            <Statistic counter={average ? average : 0} text="Average" />
+            <Statistic
+                counter={percent ? percent + "%" : 0 + "%"}
+                text="Positive"
+            />
+        </div>
     );
 };
 
@@ -34,6 +53,14 @@ const App = () => {
     const headers = ["Give feedback", "Statistics"];
     const average = (good + bad * -1) / total;
     const percent = (good / (good + neutral + bad)) * 100;
+    let statisticsObject = {
+        good: good,
+        neutral: neutral,
+        bad: bad,
+        total: total,
+        average: average,
+        percent: percent,
+    };
 
     const handleClick = (button) => {
         switch (button) {
@@ -59,7 +86,8 @@ const App = () => {
             <Button onClick={() => handleClick("neutral")} text="NEUTRAL" />
             <Button onClick={() => handleClick("bad")} text="BAD" />
             <Header header={headers[1]} />
-            <Statistic counter={good} text="Good" />
+            <StatisticsGroup statistics={statisticsObject} />
+            {/* <Statistic counter={good} text="Good" />
             <Statistic counter={neutral} text="Neutral" />
             <Statistic counter={bad} text="Bad" />
             <Statistic counter={total} text="Total" />
@@ -67,7 +95,7 @@ const App = () => {
             <Statistic
                 counter={percent ? percent + "%" : 0 + "%"}
                 text="Positive"
-            />
+            /> */}
 
             <Footer />
         </>
