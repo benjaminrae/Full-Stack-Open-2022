@@ -12,7 +12,7 @@ const Button = (props) => {
     return <button onClick={props.onClick}>{props.text}</button>;
 };
 
-const Statistic = (props) => {
+const StatisticLine = (props) => {
     console.log(props, "here");
     return (
         <p>
@@ -26,12 +26,12 @@ const StatisticsGroup = (props) => {
     if (total) {
         return (
             <div>
-                <Statistic counter={good} text="Good" />
-                <Statistic counter={neutral} text="Neutral" />
-                <Statistic counter={bad} text="Bad" />
-                <Statistic counter={total} text="Total" />
-                <Statistic counter={average ? average : 0} text="Average" />
-                <Statistic
+                <StatisticLine counter={good} text="Good" />
+                <StatisticLine counter={neutral} text="Neutral" />
+                <StatisticLine counter={bad} text="Bad" />
+                <StatisticLine counter={total} text="Total" />
+                <StatisticLine counter={average ? average : 0} text="Average" />
+                <StatisticLine
                     counter={percent ? percent + "%" : 0 + "%"}
                     text="Positive"
                 />
@@ -92,16 +92,6 @@ const App = () => {
             <Button onClick={() => handleClick("bad")} text="BAD" />
             <Header header={headers[1]} />
             <StatisticsGroup statistics={statisticsObject} />
-            {/* <Statistic counter={good} text="Good" />
-            <Statistic counter={neutral} text="Neutral" />
-            <Statistic counter={bad} text="Bad" />
-            <Statistic counter={total} text="Total" />
-            <Statistic counter={average ? average : 0} text="Average" />
-            <Statistic
-                counter={percent ? percent + "%" : 0 + "%"}
-                text="Positive"
-            /> */}
-
             <Footer />
         </>
     );
