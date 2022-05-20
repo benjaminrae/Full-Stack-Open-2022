@@ -9,10 +9,10 @@ const Header = (props) => {
 };
 
 const Button = (props) => {
-    return <button onClick={props.handleClick}>{props.text}</button>;
+    return <button onClick={props.onClick}>{props.text}</button>;
 };
 
-const Statistics = (props) => {
+const Statistic = (props) => {
     console.log(props);
     return (
         <p>
@@ -30,22 +30,44 @@ const App = () => {
     const [good, setGood] = useState(0);
     const [neutral, setNeutral] = useState(0);
     const [bad, setBad] = useState(0);
+    const total = good + neutral + bad;
     const headers = ["Give feedback", "Statistics"];
+    const average = (good + bad * -1) / total;
+    const percent = (good / (good + neutral + bad)) * 100;
+
+    const handleClick = (button) => {
+        switch (button) {
+            case "good":
+                setGood(good + 1);
+                break;
+            case "neutral":
+                setNeutral(neutral + 1);
+                break;
+            case "bad":
+                setBad(bad + 1);
+                break;
+            default:
+                break;
+        }
+    };
 
     return (
         <>
             <Title />
             <Header header={headers[0]} />
-            <Button handleClick={() => setGood(good + 1)} text="GOOD" />
-            <Button
-                handleClick={() => setNeutral(neutral + 1)}
-                text="NEUTRAL"
-            />
-            <Button handleClick={() => setBad(bad + 1)} text="BAD" />
+            <Button onClick={() => handleClick("good")} text="GOOD" />
+            <Button onClick={() => handleClick("neutral")} text="NEUTRAL" />
+            <Button onClick={() => handleClick("bad")} text="BAD" />
             <Header header={headers[1]} />
-            <Statistics counter={good} text="Good" />
-            <Statistics counter={neutral} text="Neutral" />
-            <Statistics counter={bad} text="Bad" />
+            <Statistic counter={good} text="Good" />
+            <Statistic counter={neutral} text="Neutral" />
+            <Statistic counter={bad} text="Bad" />
+            <Statistic counter={total} text="Total" />
+            <Statistic counter={average ? average : 0} text="Average" />
+            <Statistic
+                counter={percent ? percent + "%" : 0 + "%"}
+                text="Positive"
+            />
 
             <Footer />
         </>
