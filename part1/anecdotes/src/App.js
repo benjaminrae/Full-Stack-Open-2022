@@ -14,6 +14,10 @@ const VoteCount = (props) => {
     return <p>has {props.voteCount} votes</p>;
 };
 
+const Header = (props) => {
+    return <h2>{props.text}</h2>;
+};
+
 const App = () => {
     const anecdotes = [
         "If it hurts, do it more often",
@@ -47,13 +51,19 @@ const App = () => {
     return (
         <>
             <Title />
+            <Header text="Anecdote of the day" />
             <Anecdote selectedAnecdote={anecdotes[selected]} />
             <VoteCount voteCount={votes[selected]} />
             <Button onClick={() => handleVoteClick()} text="Vote" />
             <Button
                 onClick={() => handleAnecdoteClick()}
-                text="Generate Random Anecdote"
+                text="Next Anecdote"
             />
+            <Header text="Anecdote with most votes" />
+            <Anecdote
+                selectedAnecdote={anecdotes[votes.indexOf(Math.max(...votes))]}
+            />
+            <VoteCount voteCount={votes[votes.indexOf(Math.max(...votes))]} />
         </>
     );
 };
