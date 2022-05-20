@@ -22,20 +22,25 @@ const Statistic = (props) => {
 };
 
 const StatisticsGroup = (props) => {
-    // console.log(props, "stats group");
     const { good, neutral, bad, total, average, percent } = props.statistics;
-    // console.log(props.good, "this is good");
+    if (total) {
+        return (
+            <div>
+                <Statistic counter={good} text="Good" />
+                <Statistic counter={neutral} text="Neutral" />
+                <Statistic counter={bad} text="Bad" />
+                <Statistic counter={total} text="Total" />
+                <Statistic counter={average ? average : 0} text="Average" />
+                <Statistic
+                    counter={percent ? percent + "%" : 0 + "%"}
+                    text="Positive"
+                />
+            </div>
+        );
+    }
     return (
         <div>
-            <Statistic counter={good} text="Good" />
-            <Statistic counter={neutral} text="Neutral" />
-            <Statistic counter={bad} text="Bad" />
-            <Statistic counter={total} text="Total" />
-            <Statistic counter={average ? average : 0} text="Average" />
-            <Statistic
-                counter={percent ? percent + "%" : 0 + "%"}
-                text="Positive"
-            />
+            <p>No feedback given</p>
         </div>
     );
 };
