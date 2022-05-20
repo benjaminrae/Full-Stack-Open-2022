@@ -15,9 +15,10 @@ const Button = (props) => {
 const StatisticLine = (props) => {
     console.log(props, "here");
     return (
-        <p>
-            {props.text} : {props.counter}
-        </p>
+        <tr>
+            <td>{props.text}</td>
+            <td>{props.counter}</td>
+        </tr>
     );
 };
 
@@ -25,7 +26,7 @@ const StatisticsGroup = (props) => {
     const { good, neutral, bad, total, average, percent } = props.statistics;
     if (total) {
         return (
-            <div>
+            <table>
                 <StatisticLine counter={good} text="Good" />
                 <StatisticLine counter={neutral} text="Neutral" />
                 <StatisticLine counter={bad} text="Bad" />
@@ -35,7 +36,7 @@ const StatisticsGroup = (props) => {
                     counter={percent ? percent + "%" : 0 + "%"}
                     text="Positive"
                 />
-            </div>
+            </table>
         );
     }
     return (
