@@ -1,9 +1,16 @@
 const Course = (props) => {
     const { id, name, parts } = props.course;
+
+    const total = Object.values(parts).reduce(
+        (total, object) => total + object.exercises,
+        0
+    );
+
     return (
         <>
             <Header course={name} />
             <Content parts={parts} />
+            <Total sum={total} />
         </>
     );
 };
@@ -47,6 +54,11 @@ const App = () => {
                 name: "State of a component",
                 exercises: 14,
                 id: 3,
+            },
+            {
+                name: "Redux",
+                exercises: 11,
+                id: 4,
             },
         ],
     };
