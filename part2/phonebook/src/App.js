@@ -11,6 +11,10 @@ const App = () => {
     const addPerson = (event) => {
         event.preventDefault();
         console.log("button clicked", event.target);
+        if (checkDuplicateNames) {
+            setNewName("");
+            return alert(`${newName} is already added to phonebook`);
+        }
         const person = {
             name: newName,
             id: persons.length + 1,
@@ -23,6 +27,10 @@ const App = () => {
         console.log(event.target.value);
         setNewName(event.target.value);
     };
+
+    const checkDuplicateNames = persons.some(
+        (person) => person.name === newName
+    );
 
     return (
         <div>
