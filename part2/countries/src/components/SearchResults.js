@@ -1,4 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+const Weather = (props) => {
+    const [weather, setWeather] = useState("");
+    console.log(weather);
+
+    useEffect(() => {
+        console.log("effect weather");
+        axios
+            .get(
+                `https://api.openweathermap.org/data/2.5/weather?q=${props.capital}&appid=${props.apiKey}&units=metric`
+            )
+            .then((response) => {
+                console.log("promise fulfilled weather");
+                setWeather(response.data);
+            });
+    }, []);
+
+    return weather ? (
+        <>
+            <h3>Weather in {props.capital}</h3>
+            <p>temperature {weather.main.temp} Celcius</p>
+            <p>wind {weather.wind.speed} m/s</p>
+        </>
+    ) : (
+        ""
+    );
+};
 
 const SearchResults = (props) => {
     const [showCountryIndex, setShowCountryIndex] = useState(0);
@@ -35,13 +63,14 @@ const SearchResults = (props) => {
                 <h2>{result.name.common}</h2>
                 <p>capital {result.capital}</p>
                 <p>area {result.area}</p>
-                <h3>languages</h3>
+                <h4>languages</h4>
                 <ul>
                     {Object.values(result.languages).map((language, key) => (
                         <li key={key}>{language}</li>
                     ))}
                 </ul>
                 <img src={result.flags.png} alt="" />
+                <Weather capital={result.capital} apiKey={props.apiKey} />
             </div>
         ));
     }

@@ -26,6 +26,7 @@ const Profile = (props) => {
 const App = () => {
     const [newSearch, setNewSearch] = useState("");
     const [countries, setCountries] = useState([]);
+    const api_key = process.env.REACT_APP_API_KEY;
 
     let countriesToShow;
     useEffect(() => {
@@ -55,6 +56,7 @@ const App = () => {
             <SearchResults
                 results={countriesToShow}
                 updateSearch={setNewSearch}
+                apiKey={api_key}
             />
         </>
     );
