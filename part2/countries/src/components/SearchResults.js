@@ -16,11 +16,15 @@ const Weather = (props) => {
                 setWeather(response.data);
             });
     }, []);
+    const weatherIcon = weather
+        ? `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`
+        : "";
 
     return weather ? (
         <>
             <h3>Weather in {props.capital}</h3>
             <p>temperature {weather.main.temp} Celcius</p>
+            <img src={weatherIcon} alt="Weather icon" />
             <p>wind {weather.wind.speed} m/s</p>
         </>
     ) : (
