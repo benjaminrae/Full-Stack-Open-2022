@@ -6,8 +6,10 @@ const Persons = (props) => {
             {props.persons.map((person) => (
                 <Name
                     key={person.id}
+                    id={person.id}
                     name={person.name}
                     number={person.number}
+                    deleteOnClick={props.deleteOnClick}
                 />
             ))}
         </ul>

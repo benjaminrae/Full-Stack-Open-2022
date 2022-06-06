@@ -45,6 +45,20 @@ const App = () => {
         });
     };
 
+    const deletePerson = (event) => {
+        event.preventDefault();
+        console.log("button clicked", event.target.value);
+        const targetUrl = `http://localhost:3001/persons/${event.target.value}`;
+        window.confirm(`Delete ${event.target.name}?`)
+            ? axios.delete(targetUrl).then((response) => {
+                  console.log(response);
+                  personService
+                      .getAll()
+                      .then((response) => setPersons(response));
+              })
+            : console.log("Delete cancelled");
+    };
+
     const handleNameChange = (event) => {
         console.log(event.target.value);
         setNewName(event.target.value);
@@ -85,7 +99,7 @@ const App = () => {
                 buttonOnClick={addPerson}
             />
             <h2>Numbers</h2>
-            <Persons persons={personsToShow} />
+            <Persons persons={personsToShow} deleteOnClick={deletePerson} />
         </div>
     );
 };
