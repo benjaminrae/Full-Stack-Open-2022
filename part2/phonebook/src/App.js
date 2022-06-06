@@ -5,6 +5,13 @@ import Filter from "./Components/Filter";
 import Persons from "./Components/Persons";
 import personService from "./services/persons";
 
+const Notification = ({ message }) => {
+    if (message === null) {
+        return null;
+    }
+    return <div className="error">{message}</div>;
+};
+
 const App = () => {
     const [persons, setPersons] = useState([
         { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -15,6 +22,7 @@ const App = () => {
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
     const [newSearch, setNewSearch] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         console.log("effect");
@@ -35,7 +43,11 @@ const App = () => {
                 : console.log("cancelled");
             setNewName("");
             setNewNumber("");
-            return alert(`${newName} updated`);
+            setErrorMessage(`${newName} updated`);
+            setTimeout(() => {
+                setErrorMessage(null);
+            }, 5000);
+            return;
         }
         const person = {
             name: newName,
@@ -48,6 +60,10 @@ const App = () => {
             setNewName("");
             setNewNumber("");
         });
+        setErrorMessage(`${newName} added`);
+        setTimeout(() => {
+            setErrorMessage(null);
+        }, 5000);
     };
 
     const deletePerson = (event) => {
@@ -60,6 +76,10 @@ const App = () => {
                   personService
                       .getAll()
                       .then((response) => setPersons(response));
+                  setErrorMessage(`${event.target.name} deleted`);
+                  setTimeout(() => {
+                      setErrorMessage(null);
+                  }, 5000);
               })
             : console.log("Delete cancelled");
     };
@@ -106,6 +126,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification message={errorMessage} />
             <Filter value={newSearch} onChange={handleSearchChange} />
             <div>
                 <h2>add a new</h2>
