@@ -28,9 +28,14 @@ const App = () => {
         event.preventDefault();
         console.log("button clicked", event.target);
         if (checkDuplicateNames) {
+            window.confirm(
+                `${newName} is already in the phonebook, do you want to replace the old number with a new one? `
+            )
+                ? updatePhoneNumber(newName, newNumber)
+                : console.log("cancelled");
             setNewName("");
             setNewNumber("");
-            return alert(`${newName} is already added to phonebook`);
+            return alert(`${newName} updated`);
         }
         const person = {
             name: newName,
@@ -77,6 +82,20 @@ const App = () => {
     const checkDuplicateNames = persons.some(
         (person) => person.name === newName
     );
+
+    const updatePhoneNumber = (name, newNumber) => {
+        const personToUpdate = persons.find((person) => person.name === name);
+        const updatedPerson = { ...personToUpdate, number: newNumber };
+        personService
+            .update(updatedPerson.id, updatedPerson)
+            .then((returnedPerson) => {
+                setPersons(
+                    persons.map((person) =>
+                        person.id !== updatedPerson.id ? person : returnedPerson
+                    )
+                );
+            });
+    };
 
     const personsToShow = persons.filter((person) =>
         newSearch
