@@ -9,6 +9,13 @@ const Notification = ({ message }) => {
     if (message === null) {
         return null;
     }
+    return <div className="notification">{message}</div>;
+};
+
+const Error = ({ message }) => {
+    if (message === null) {
+        return null;
+    }
     return <div className="error">{message}</div>;
 };
 
@@ -22,6 +29,7 @@ const App = () => {
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
     const [newSearch, setNewSearch] = useState("");
+    const [notificationMessage, setNotificationMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
@@ -43,9 +51,9 @@ const App = () => {
                 : console.log("cancelled");
             setNewName("");
             setNewNumber("");
-            setErrorMessage(`${newName} updated`);
+            setNotificationMessage(`${newName} updated`);
             setTimeout(() => {
-                setErrorMessage(null);
+                setNotificationMessage(null);
             }, 5000);
             return;
         }
@@ -60,9 +68,9 @@ const App = () => {
             setNewName("");
             setNewNumber("");
         });
-        setErrorMessage(`${newName} added`);
+        setNotificationMessage(`${newName} added`);
         setTimeout(() => {
-            setErrorMessage(null);
+            setNotificationMessage(null);
         }, 5000);
     };
 
@@ -71,17 +79,34 @@ const App = () => {
         console.log("button clicked", event.target.value);
         const targetUrl = `http://localhost:3001/persons/${event.target.value}`;
         window.confirm(`Delete ${event.target.name}?`)
-            ? axios.delete(targetUrl).then((response) => {
-                  console.log(response);
-                  personService
-                      .getAll()
-                      .then((response) => setPersons(response));
-                  setErrorMessage(`${event.target.name} deleted`);
-                  setTimeout(() => {
-                      setErrorMessage(null);
-                  }, 5000);
-              })
-            : console.log("Delete cancelled");
+            ? axios
+                  .delete(targetUrl)
+                  .then((response) => {
+                      console.log(response);
+                      personService
+                          .getAll()
+                          .then((response) => setPersons(response));
+                      setNotificationMessage(`${event.target.name} deleted`);
+                      setTimeout(() => {
+                          setNotificationMessage(null);
+                      }, 5000);
+                  })
+                  .catch((error) => {
+                      setErrorMessage(
+                          `${event.target.name} already deleted from server`
+                      );
+                      setTimeout(() => {
+                          setErrorMessage(null);
+                      }, 5000);
+                      personService
+                          .getAll()
+                          .then((response) => setPersons(response));
+                  })
+            : setErrorMessage(`Delete cancelled`);
+        setTimeout(() => {
+            setErrorMessage(null);
+        }, 5000);
+        console.log("Delete cancelled");
     };
 
     const handleNameChange = (event) => {
@@ -126,7 +151,8 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <Notification message={errorMessage} />
+            <Notification message={notificationMessage} />
+            <Error message={errorMessage} />
             <Filter value={newSearch} onChange={handleSearchChange} />
             <div>
                 <h2>add a new</h2>
