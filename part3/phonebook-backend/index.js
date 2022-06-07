@@ -35,24 +35,13 @@ app.get("/api/persons", (request, response) => {
 });
 
 app.get("/api/persons/:id", (request, response) => {
-    const id = request.params.id;
-    const person = persons.find((person) => {
-        console.log(
-            person.id,
-            typeof person.id,
-            id,
-            typeof id,
-            person.id === id
-        );
-        return person.id === id;
-    });
+    const id = Number(request.params.id);
+    const person = persons.find((person) => person.id === id);
     if (person) {
         response.json(person);
     } else {
         response.status(404).end();
     }
-    console.log(person);
-    response.json(person);
 });
 
 app.delete("/api/persons/:id", (request, response) => {
